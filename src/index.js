@@ -1,48 +1,36 @@
+import { createStore } from './createStore';
+import { rootReducer } from './redux/rootReducer';
 import './styles.css'
-
-// Counter State providing
 
 const counter = document.querySelector('#counter');
 const addBtn = document.querySelector('#add');
 const subBtn = document.querySelector('#sub');
 const asyncBtn = document.querySelector('#async');
+const theme = document.querySelector('#theme');
 
-let state = 0; 
+const store = createStore(rootReducer, 0);
 
-function pageRender() {
-    counter.innerHTML = state;
-//    counter.textContent = state.toString(); it is also true;
-}
 
 addBtn.addEventListener('click', () => {
-    state++;
-    pageRender();
+    store.dispatch({type: "INCREMENT"})
 })
 
 subBtn.addEventListener('click', () => {
-    state--;
-    pageRender();
+    store.dispatch({type: "DECREMENT"})
 })
 
 asyncBtn.addEventListener('click', () => {
-    setTimeout(() => {
-        ++state
-        state++
-        pageRender()
-    }, 3000)
+
 })
 
+store.subscribe(() => {
+    const state = store.getState();
+    counter.textContent = state;
+})
+store.dispatch({type: "INITIAL"})
 
-pageRender();
 
 
-
-
-
-
-// Change theme functionality
-const theme = document.querySelector('#theme');
-function changeTheme() {
-   document.body.classList.toggle('dark');
-}
-theme.addEventListener('click', changeTheme);
+theme.addEventListener('click', () => {
+   
+});
